@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Interactive Video Notetaker",
+  "version": "1.0.3",
+  "description": "Take notes beside videos with timestamp links and auto-captures while you type.",
+  "permissions": ["storage", "tabs", "scripting", "sidePanel", "activeTab"],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "action": {
+    "default_title": "Open Video Notetaker"
+  },
+  "side_panel": {
+    "default_path": "sidepanel/sidepanel.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.youtube.com/*",
+        "https://youtube.com/*",
+        "https://youtu.be/*",
+        "https://*.coursera.org/*",
+        "https://coursera.org/*"
+      ],
+      "js": ["content/content-script.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

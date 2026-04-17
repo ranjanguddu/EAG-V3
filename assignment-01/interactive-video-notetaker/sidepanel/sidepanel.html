@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Video Notetaker</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <header class="top">
+      <h1>Video Notetaker</h1>
+      <p class="sub">Notes stay next to the video. Captures use what’s visible in the tab.</p>
+    </header>
+
+    <section class="status" id="statusLine" aria-live="polite"></section>
+
+    <section class="controls">
+      <label class="row">
+        <input type="checkbox" id="autoCapture" />
+        <span>Auto-capture when I pause typing (often limited by Chrome—use Capture instead)</span>
+      </label>
+      <label class="row">
+        <span>Pause</span>
+        <input type="range" id="debounceMs" min="400" max="2500" step="100" value="900" />
+        <span id="debounceLabel">900 ms</span>
+      </label>
+    </section>
+
+    <section class="note-area">
+      <label for="noteText">Your notes</label>
+      <textarea
+        id="noteText"
+        rows="10"
+        placeholder="Type while the lecture plays. Use theater mode for clearer screenshots."
+      ></textarea>
+    </section>
+
+    <div class="actions">
+      <button type="button" id="btnTimestamp" class="btn secondary">Insert timestamp link</button>
+      <button type="button" id="btnCapture" class="btn primary">Capture frame now</button>
+    </div>
+
+    <section class="snapshots">
+      <h2>Snapshots &amp; links</h2>
+      <p class="hint">Each item jumps to that moment in the video (same tab).</p>
+      <ul id="snapshotList" class="snapshot-list"></ul>
+    </section>
+
+    <footer class="footer">
+      <button type="button" id="btnExportJson" class="btn secondary">Export JSON</button>
+      <button type="button" id="btnClear" class="btn danger">Clear session</button>
+    </footer>
+
+    <script src="sidepanel.js"></script>
+  </body>
+</html>
