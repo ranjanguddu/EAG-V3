@@ -1,0 +1,42 @@
+#hh-btn {
+  position: absolute;
+  z-index: 2147483647;
+  padding: 6px 10px;
+  font: 13px system-ui, sans-serif;
+  color: #fff;
+  background: #1f6feb;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#hh-box {
+  position: absolute;
+  z-index: 2147483647;
+  width: 320px;
+  max-height: 320px;
+  overflow: auto;
+  padding: 28px 12px 12px 12px;
+  background: #fff;
+  color: #111;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  font: 14px system-ui, "Noto Sans Devanagari", sans-serif;
+  white-space: pre-wrap;
+}
+#hh-box .hh-body { line-height: 1.4; }
+#hh-box .hh-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  line-height: 18px;
+  font-size: 18px;
+  background: transparent;
+  color: #666;
+  border: 0;
+  cursor: pointer;
+}
+#hh-box .hh-close:hover { color: #111; }
