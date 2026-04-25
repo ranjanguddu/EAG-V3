@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; style-src 'self'; script-src 'self'; connect-src http://127.0.0.1:8007 http://localhost:8007;" />
+    <title>YouTube Learning Companion</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>YouTube Learning Companion</h1>
+      <div class="url-bar">
+        <span class="label">Video:</span>
+        <span id="video-url" class="value">(open a YouTube tab)</span>
+      </div>
+    </header>
+
+    <div class="quick-actions">
+      <button class="chip" data-q="Give me a short summary of this video.">Summarise</button>
+      <button class="chip" data-q="Extract the key concepts from this video.">Concepts</button>
+      <button class="chip" data-q="Generate a 5-question quiz on this video.">Quiz me</button>
+      <button class="chip" data-q="Find arXiv papers related to the most important concept in this video.">Related papers</button>
+    </div>
+
+    <div class="input-row">
+      <input id="query" type="text"
+             placeholder="Ask anything about this video..."
+             maxlength="500" autocomplete="off" />
+      <button id="run">Run</button>
+    </div>
+
+    <section class="progress-row">
+      <span id="status" class="status idle">Idle</span>
+      <span id="progress" class="progress"></span>
+      <button id="clear" class="ghost">Clear</button>
+    </section>
+
+    <section class="answer">
+      <h2>Answer</h2>
+      <div id="answer" class="answer-box empty">Ask a question to begin.</div>
+    </section>
+
+    <details class="debug">
+      <summary>Show reasoning trace</summary>
+      <ol id="chain"></ol>
+    </details>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

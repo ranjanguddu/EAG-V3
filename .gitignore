@@ -1,2 +1,16 @@
 .DS_Store
 *.mp4
+
+# Secrets
+.env
+.env.*
+!.env.example
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+# Node / editors
+node_modules/
+.vscode/
+.idea/

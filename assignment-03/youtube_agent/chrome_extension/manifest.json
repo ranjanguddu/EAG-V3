@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Learning Companion",
+  "version": "0.1.0",
+  "description": "Agentic AI that helps you learn from YouTube videos: summary, key concepts, related arXiv papers, and quizzes.",
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": [
+    "http://127.0.0.1:8007/*",
+    "http://localhost:8007/*"
+  ],
+  "action": {
+    "default_title": "YouTube Learning Companion",
+    "default_popup": "popup.html"
+  }
+}

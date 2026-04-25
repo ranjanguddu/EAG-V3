@@ -1,0 +1,975 @@
+YouTube Learning Companion Agent — LLM Interaction Logs
+Generated: 2026-04-25T10:12:19
+Model: gemini-3.1-flash-lite-preview
+Total queries: 3
+
+##############################################################################
+SYSTEM PROMPT (sent on EVERY iteration as part of full history)
+##############################################################################
+You are a YouTube Learning Companion Agent.
+You help users understand YouTube videos deeply.
+
+You CANNOT watch YouTube videos directly. You MUST use tools.
+
+Available tools:
+1. get_video_metadata(video_url: str)
+   Returns title, channel, thumbnail of a YouTube video.
+
+2. get_video_transcript(video_url: str)
+   Returns the full text transcript of the video.
+   IMPORTANT: Most other tools need a transcript first.
+
+3. summarize_video(transcript: str)
+   Generates a concise summary of the transcript.
+
+4. extract_key_concepts(transcript: str)
+   Returns a JSON list of important concepts from the transcript.
+
+5. search_arxiv_papers(concept: str)
+   Searches arXiv for academic papers on a given concept.
+
+6. generate_quiz(transcript: str)
+   Creates 5 MCQs to test understanding of the transcript.
+
+You MUST respond in ONE of these two JSON formats:
+
+If you need to use a tool:
+{"tool_name": "<name>", "tool_arguments": {"<arg_name>": "<value>"}}
+
+If you have the final answer:
+{"answer": "<your final answer>"}
+
+RULES:
+- Respond with ONLY the JSON. No prose around the JSON. No code fences.
+- Plan multi-step: e.g. transcript -> summary, or transcript -> concepts -> arxiv.
+- When passing a transcript to a tool, use the EXACT 'transcript' field
+  from the previous get_video_transcript tool result.
+- Once you have enough information, give the final answer.
+
+FORMAT OF THE FINAL ANSWER (the value of "answer"):
+The "answer" string MUST be well-formatted MARKDOWN, NOT a single
+run-on paragraph. Specifically:
+  - Use "## " section headings where it helps (e.g. "## Summary",
+    "## Key Concepts", "## Related Papers").
+  - Use "- " bullets or "1. ", "2. " numbered lists, ONE ITEM PER LINE.
+  - Use **bold** to highlight names, terms, or final verdicts.
+  - Use `code` for short technical terms.
+  - For links, ALWAYS use markdown link syntax: [Title](URL).
+  - Separate sections with a BLANK LINE so the popup can render
+    paragraphs and lists correctly.
+  - Keep it compact and scannable — no walls of text.
+
+ESCAPING NEWLINES IN JSON:
+Because your reply is a JSON object, real newlines inside the "answer"
+string MUST be written as the two characters \n. Example:
+  {"answer": "## Summary\n\nThis video covers...\n\n## Papers\n\n1. [Paper A](https://...)\n2. [Paper B](https://...)"}
+
+SPECIAL RULE — QUIZ MODE (overrides the markdown format):
+When the user wants a QUIZ, after calling generate_quiz, your final answer
+MUST be a JSON object of the form:
+  {"answer": "<the EXACT quiz JSON array string from the tool result>"}
+That is, the value of "answer" must be the raw stringified JSON array
+that came out of generate_quiz — no prose, no markdown, no fences.
+The frontend will parse it and render an interactive quiz.
+
+
+##############################################################################
+# QUERY 1/3
+##############################################################################
+
+==============================================================================
+USER QUERY:
+What is the title and channel of this video? https://www.youtube.com/watch?v=PeMlggyqz0Y
+==============================================================================
+
+--- Iteration 1 ---
+
+[PROMPT SENT TO LLM] (full conversation history, 2 message(s), 2828 chars total)
+You are a YouTube Learning Companion Agent.
+You help users understand YouTube videos deeply.
+
+You CANNOT watch YouTube videos directly. You MUST use tools.
+
+Available tools:
+1. get_video_metadata(video_url: str)
+   Returns title, channel, thumbnail of a YouTube video.
+
+2. get_video_transcript(video_url: str)
+   Returns the full text transcript of the video.
+   IMPORTANT: Most other tools need a transcript first.
+
+3. summarize_video(transcript: str)
+   Generates a concise summary of the transcript.
+
+4. extract_key_concepts(transcript: str)
+   Returns a JSON list of important concepts from the transcript.
+
+5. search_arxiv_papers(concept: str)
+   Searches arXiv for academic papers on a given concept.
+
+6. generate_quiz(transcript: str)
+   Creates 5 MCQs to test understanding of the transcript.
+
+You MUST respond in ONE of these two JSON formats:
+
+If you need to use a tool:
+{"tool_name": "<name>", "tool_arguments": {"<arg_name>": "<value>"}}
+
+If you have the final answer:
+{"answer": "<your final answer>"}
+
+RULES:
+- Respond with ONLY the JSON. No prose around the JSON. No code fences.
+- Plan multi-step: e.g. transcript -> summary, or transcript -> concepts -> arxiv.
+- When passing a transcript to a tool, use the EXACT 'transcript' field
+  from the previous get_video_transcript tool result.
+- Once you have enough information, give the final answer.
+
+FORMAT OF THE FINAL ANSWER (the value of "answer"):
+The "answer" string MUST be well-formatted MARKDOWN, NOT a single
+run-on paragraph. Specifically:
+  - Use "## " section headings where it helps (e.g. "## Summary",
+    "## Key Concepts", "## Related Papers").
+  - Use "- " bullets or "1. ", "2. " numbered lists, ONE ITEM PER LINE.
+  - Use **bold** to highlight names, terms, or final verdicts.
+  - Use `code` for short technical terms.
+  - For links, ALWAYS use markdown link syntax: [Title](URL).
+  - Separate sections with a BLANK LINE so the popup can render
+    paragraphs and lists correctly.
+  - Keep it compact and scannable — no walls of text.
+
+ESCAPING NEWLINES IN JSON:
+Because your reply is a JSON object, real newlines inside the "answer"
+string MUST be written as the two characters \n. Example:
+  {"answer": "## Summary\n\nThis video covers...\n\n## Papers\n\n1. [Paper A](https://...)\n2. [Paper B](https://...)"}
+
+SPECIAL RULE — QUIZ MODE (overrides the markdown format):
+When the user wants a QUIZ, after calling generate_quiz, your final answer
+MUST be a JSON object of the form:
+  {"answer": "<the EXACT quiz JSON array string from the tool result>"}
+That is, the value of "answer" must be the raw stringified JSON array
+that came out of generate_quiz — no prose, no markdown, no fences.
+The frontend will parse it and render an interactive quiz.
+
+
+User: What is the title and channel of this video? https://www.youtube.com/watch?v=PeMlggyqz0Y
+
+[LLM RAW REPLY]
+{"tool_name": "get_video_metadata", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+[LLM PARSED] {"tool_name": "get_video_metadata", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+[TOOL CALL] get_video_metadata({"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"})
+
+[TOOL RESULT]
+{"title": "Machine Learning Explained in 100 Seconds", "channel": "Fireship", "thumbnail": "https://i.ytimg.com/vi/PeMlggyqz0Y/hqdefault.jpg", "video_id": "PeMlggyqz0Y"}
+
+--- Iteration 2 ---
+
+[PROMPT SENT TO LLM] (full conversation history, 4 message(s), 3140 chars total)
+You are a YouTube Learning Companion Agent.
+You help users understand YouTube videos deeply.
+
+You CANNOT watch YouTube videos directly. You MUST use tools.
+
+Available tools:
+1. get_video_metadata(video_url: str)
+   Returns title, channel, thumbnail of a YouTube video.
+
+2. get_video_transcript(video_url: str)
+   Returns the full text transcript of the video.
+   IMPORTANT: Most other tools need a transcript first.
+
+3. summarize_video(transcript: str)
+   Generates a concise summary of the transcript.
+
+4. extract_key_concepts(transcript: str)
+   Returns a JSON list of important concepts from the transcript.
+
+5. search_arxiv_papers(concept: str)
+   Searches arXiv for academic papers on a given concept.
+
+6. generate_quiz(transcript: str)
+   Creates 5 MCQs to test understanding of the transcript.
+
+You MUST respond in ONE of these two JSON formats:
+
+If you need to use a tool:
+{"tool_name": "<name>", "tool_arguments": {"<arg_name>": "<value>"}}
+
+If you have the final answer:
+{"answer": "<your final answer>"}
+
+RULES:
+- Respond with ONLY the JSON. No prose around the JSON. No code fences.
+- Plan multi-step: e.g. transcript -> summary, or transcript -> concepts -> arxiv.
+- When passing a transcript to a tool, use the EXACT 'transcript' field
+  from the previous get_video_transcript tool result.
+- Once you have enough information, give the final answer.
+
+FORMAT OF THE FINAL ANSWER (the value of "answer"):
+The "answer" string MUST be well-formatted MARKDOWN, NOT a single
+run-on paragraph. Specifically:
+  - Use "## " section headings where it helps (e.g. "## Summary",
+    "## Key Concepts", "## Related Papers").
+  - Use "- " bullets or "1. ", "2. " numbered lists, ONE ITEM PER LINE.
+  - Use **bold** to highlight names, terms, or final verdicts.
+  - Use `code` for short technical terms.
+  - For links, ALWAYS use markdown link syntax: [Title](URL).
+  - Separate sections with a BLANK LINE so the popup can render
+    paragraphs and lists correctly.
+  - Keep it compact and scannable — no walls of text.
+
+ESCAPING NEWLINES IN JSON:
+Because your reply is a JSON object, real newlines inside the "answer"
+string MUST be written as the two characters \n. Example:
+  {"answer": "## Summary\n\nThis video covers...\n\n## Papers\n\n1. [Paper A](https://...)\n2. [Paper B](https://...)"}
+
+SPECIAL RULE — QUIZ MODE (overrides the markdown format):
+When the user wants a QUIZ, after calling generate_quiz, your final answer
+MUST be a JSON object of the form:
+  {"answer": "<the EXACT quiz JSON array string from the tool result>"}
+That is, the value of "answer" must be the raw stringified JSON array
+that came out of generate_quiz — no prose, no markdown, no fences.
+The frontend will parse it and render an interactive quiz.
+
+
+User: What is the title and channel of this video? https://www.youtube.com/watch?v=PeMlggyqz0Y
+
+Assistant: {"tool_name": "get_video_metadata", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+Tool Result: {"title": "Machine Learning Explained in 100 Seconds", "channel": "Fireship", "thumbnail": "https://i.ytimg.com/vi/PeMlggyqz0Y/hqdefault.jpg", "video_id": "PeMlggyqz0Y"}
+
+[LLM RAW REPLY]
+{"answer": "The video is titled **Machine Learning Explained in 100 Seconds** and is published by the channel **Fireship**."}
+
+[LLM PARSED] {"answer": "The video is titled **Machine Learning Explained in 100 Seconds** and is published by the channel **Fireship**."}
+
+[FINAL ANSWER]
+The video is titled **Machine Learning Explained in 100 Seconds** and is published by the channel **Fireship**.
+
+
+##############################################################################
+# QUERY 2/3
+##############################################################################
+
+==============================================================================
+USER QUERY:
+Give me a short summary of this video: https://www.youtube.com/watch?v=PeMlggyqz0Y
+==============================================================================
+
+--- Iteration 1 ---
+
+[PROMPT SENT TO LLM] (full conversation history, 2 message(s), 2822 chars total)
+You are a YouTube Learning Companion Agent.
+You help users understand YouTube videos deeply.
+
+You CANNOT watch YouTube videos directly. You MUST use tools.
+
+Available tools:
+1. get_video_metadata(video_url: str)
+   Returns title, channel, thumbnail of a YouTube video.
+
+2. get_video_transcript(video_url: str)
+   Returns the full text transcript of the video.
+   IMPORTANT: Most other tools need a transcript first.
+
+3. summarize_video(transcript: str)
+   Generates a concise summary of the transcript.
+
+4. extract_key_concepts(transcript: str)
+   Returns a JSON list of important concepts from the transcript.
+
+5. search_arxiv_papers(concept: str)
+   Searches arXiv for academic papers on a given concept.
+
+6. generate_quiz(transcript: str)
+   Creates 5 MCQs to test understanding of the transcript.
+
+You MUST respond in ONE of these two JSON formats:
+
+If you need to use a tool:
+{"tool_name": "<name>", "tool_arguments": {"<arg_name>": "<value>"}}
+
+If you have the final answer:
+{"answer": "<your final answer>"}
+
+RULES:
+- Respond with ONLY the JSON. No prose around the JSON. No code fences.
+- Plan multi-step: e.g. transcript -> summary, or transcript -> concepts -> arxiv.
+- When passing a transcript to a tool, use the EXACT 'transcript' field
+  from the previous get_video_transcript tool result.
+- Once you have enough information, give the final answer.
+
+FORMAT OF THE FINAL ANSWER (the value of "answer"):
+The "answer" string MUST be well-formatted MARKDOWN, NOT a single
+run-on paragraph. Specifically:
+  - Use "## " section headings where it helps (e.g. "## Summary",
+    "## Key Concepts", "## Related Papers").
+  - Use "- " bullets or "1. ", "2. " numbered lists, ONE ITEM PER LINE.
+  - Use **bold** to highlight names, terms, or final verdicts.
+  - Use `code` for short technical terms.
+  - For links, ALWAYS use markdown link syntax: [Title](URL).
+  - Separate sections with a BLANK LINE so the popup can render
+    paragraphs and lists correctly.
+  - Keep it compact and scannable — no walls of text.
+
+ESCAPING NEWLINES IN JSON:
+Because your reply is a JSON object, real newlines inside the "answer"
+string MUST be written as the two characters \n. Example:
+  {"answer": "## Summary\n\nThis video covers...\n\n## Papers\n\n1. [Paper A](https://...)\n2. [Paper B](https://...)"}
+
+SPECIAL RULE — QUIZ MODE (overrides the markdown format):
+When the user wants a QUIZ, after calling generate_quiz, your final answer
+MUST be a JSON object of the form:
+  {"answer": "<the EXACT quiz JSON array string from the tool result>"}
+That is, the value of "answer" must be the raw stringified JSON array
+that came out of generate_quiz — no prose, no markdown, no fences.
+The frontend will parse it and render an interactive quiz.
+
+
+User: Give me a short summary of this video: https://www.youtube.com/watch?v=PeMlggyqz0Y
+
+[LLM RAW REPLY]
+{"tool_name": "get_video_transcript", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+[LLM PARSED] {"tool_name": "get_video_transcript", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+[TOOL CALL] get_video_transcript({"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"})
+
+[TOOL RESULT]
+{"video_id": "PeMlggyqz0Y", "language": "en", "word_count": 529, "transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could play checkers half a century later and predictive models are embedded in many of the products we use every day which perform two fundamental jobs one is to classify data like is there another car on the road or does this patient have cancer the other is to make predictions about future outcomes like will the stock go up or which YouTube video do you want to watch next the first step i... [truncated, total 3035 chars]
+
+--- Iteration 2 ---
+
+[PROMPT SENT TO LLM] (full conversation history, 4 message(s), 6002 chars total)
+You are a YouTube Learning Companion Agent.
+You help users understand YouTube videos deeply.
+
+You CANNOT watch YouTube videos directly. You MUST use tools.
+
+Available tools:
+1. get_video_metadata(video_url: str)
+   Returns title, channel, thumbnail of a YouTube video.
+
+2. get_video_transcript(video_url: str)
+   Returns the full text transcript of the video.
+   IMPORTANT: Most other tools need a transcript first.
+
+3. summarize_video(transcript: str)
+   Generates a concise summary of the transcript.
+
+4. extract_key_concepts(transcript: str)
+   Returns a JSON list of important concepts from the transcript.
+
+5. search_arxiv_papers(concept: str)
+   Searches arXiv for academic papers on a given concept.
+
+6. generate_quiz(transcript: str)
+   Creates 5 MCQs to test understanding of the transcript.
+
+You MUST respond in ONE of these two JSON formats:
+
+If you need to use a tool:
+{"tool_name": "<name>", "tool_arguments": {"<arg_name>": "<value>"}}
+
+If you have the final answer:
+{"answer": "<your final answer>"}
+
+RULES:
+- Respond with ONLY the JSON. No prose around the JSON. No code fences.
+- Plan multi-step: e.g. transcript -> summary, or transcript -> concepts -> arxiv.
+- When passing a transcript to a tool, use the EXACT 'transcript' field
+  from the previous get_video_transcript tool result.
+- Once you have enough information, give the final answer.
+
+FORMAT OF THE FINAL ANSWER (the value of "answer"):
+The "answer" string MUST be well-formatted MARKDOWN, NOT a single
+run-on paragraph. Specifically:
+  - Use "## " section headings where it helps (e.g. "## Summary",
+    "## Key Concepts", "## Related Papers").
+  - Use "- " bullets or "1. ", "2. " numbered lists, ONE ITEM PER LINE.
+  - Use **bold** to highlight names, terms, or final verdicts.
+  - Use `code` for short technical terms.
+  - For links, ALWAYS use markdown link syntax: [Title](URL).
+  - Separate sections with a BLANK LINE so the popup can render
+    paragraphs and lists correctly.
+  - Keep it compact and scannable — no walls of text.
+
+ESCAPING NEWLINES IN JSON:
+Because your reply is a JSON object, real newlines inside the "answer"
+string MUST be written as the two characters \n. Example:
+  {"answer": "## Summary\n\nThis video covers...\n\n## Papers\n\n1. [Paper A](https://...)\n2. [Paper B](https://...)"}
+
+SPECIAL RULE — QUIZ MODE (overrides the markdown format):
+When the user wants a QUIZ, after calling generate_quiz, your final answer
+MUST be a JSON object of the form:
+  {"answer": "<the EXACT quiz JSON array string from the tool result>"}
+That is, the value of "answer" must be the raw stringified JSON array
+that came out of generate_quiz — no prose, no markdown, no fences.
+The frontend will parse it and render an interactive quiz.
+
+
+User: Give me a short summary of this video: https://www.youtube.com/watch?v=PeMlggyqz0Y
+
+Assistant: {"tool_name": "get_video_transcript", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+Tool Result: {"video_id": "PeMlggyqz0Y", "language": "en", "word_count": 529, "transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could play checkers half a century later and predictive models are embedded in many of the products we use every day which perform two fundamental jobs one is to classify data like is there another car on the road or does this patient have cancer the other is to make predictions about future outcomes like will the stock go up or which YouTube video do you want to watch next the first step in the process is to acquire and clean up data lots and lots of data the better the data represents the problem the better the results garbage in garbage out the data needs to have some kind of signal to be valuable to the algorithm f... [truncated, total 6002 chars]
+
+[LLM RAW REPLY]
+{"tool_name": "summarize_video", "tool_arguments": {"transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could play checkers half a century later and predictive models are embedded in many of the products we use every day which perform two fundamental jobs one is to classify data like is there another car on the road or does this patient have cancer the other is to make predictions about future outcomes like will the stock go up or which YouTube video do you want to watch next the first step in the process is to acquire and clean up data lots and lots of data the better the data represents the problem the better the results garbage in garbage out the data needs to have some kind of signal to be valuable to the algorithm for making predictions and data scientists perform a job called feature engineering to transform raw data into features that better represent the underlying problem the next step is to separate the data into a training set and testing set the training data is fed into an algorithm to build a model then the testing data is used to validate the accuracy or error of the model the next step is to choose an algorithm which might be a simple statistical model like linear or logistic regression or a decision tree that assigns different weights to features in the data or you might get fancy with a convolutional neural network which is an algorithm that also assigns weights to Features but also takes the input data and creates a additional features automatically and that's extremely useful for data sets that contain things like images or natural language where manual feature engineering is virtually impossible every one of these algorithms learns to get better by comparing its predictions to an error function if it's a classification problem like is this animal a cat or a dog the error function might be accuracy if it's a regression problem like how much will a loaf of bread cost next year then it might be mean absolute error python is the language of choice among data scientists but R and Julia are also popular options and there are many supporting Frameworks out there to make the process approachable the end result of the machine learning process is a model which is just a file that takes some input data in the same shape that it was trained on then spits out a prediction that tries to minimize the error that it was optimized for it can then be embedded on an actual device or deployed to the cloud to build a real world product this has been machine learning in 100 seconds like And subscribe if you want to see more short videos like this and leave a comment if you want to see more machine learning content on this channel thanks for watching and I will see you in the next one"}}
+
+[LLM PARSED] {"tool_name": "summarize_video", "tool_arguments": {"transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could 
+
+[TOOL CALL] summarize_video({"transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead f... [truncated, total 2953 chars]"})
+
+[TOOL RESULT]
+{"summary": "### 1. Headline\nMachine learning enables computers to improve task performance through data-driven experience rather than explicit programming.\n\n### 2. Summary\nMachine learning is the process of using algorithms to analyze large datasets, allowing systems to classify information or predict future outcomes automatically. The workflow involves preparing and refining data, choosing appropriate statistical or neural network algorithms, and training the model to minimize error. Once validated, these resulting models can be deployed into software or devices to power real-world applications ranging from medical diagnostics to content recommendations.\n\n### 3. Key Takeaways\n* **Learning Mechanism:** Unlike traditional programming, machine learning algorithms iteratively improve ... [truncated, total 1616 chars]
+
+--- Iteration 3 ---
+
+[PROMPT SENT TO LLM] (full conversation history, 6 message(s), 10669 chars total)
+You are a YouTube Learning Companion Agent.
+You help users understand YouTube videos deeply.
+
+You CANNOT watch YouTube videos directly. You MUST use tools.
+
+Available tools:
+1. get_video_metadata(video_url: str)
+   Returns title, channel, thumbnail of a YouTube video.
+
+2. get_video_transcript(video_url: str)
+   Returns the full text transcript of the video.
+   IMPORTANT: Most other tools need a transcript first.
+
+3. summarize_video(transcript: str)
+   Generates a concise summary of the transcript.
+
+4. extract_key_concepts(transcript: str)
+   Returns a JSON list of important concepts from the transcript.
+
+5. search_arxiv_papers(concept: str)
+   Searches arXiv for academic papers on a given concept.
+
+6. generate_quiz(transcript: str)
+   Creates 5 MCQs to test understanding of the transcript.
+
+You MUST respond in ONE of these two JSON formats:
+
+If you need to use a tool:
+{"tool_name": "<name>", "tool_arguments": {"<arg_name>": "<value>"}}
+
+If you have the final answer:
+{"answer": "<your final answer>"}
+
+RULES:
+- Respond with ONLY the JSON. No prose around the JSON. No code fences.
+- Plan multi-step: e.g. transcript -> summary, or transcript -> concepts -> arxiv.
+- When passing a transcript to a tool, use the EXACT 'transcript' field
+  from the previous get_video_transcript tool result.
+- Once you have enough information, give the final answer.
+
+FORMAT OF THE FINAL ANSWER (the value of "answer"):
+The "answer" string MUST be well-formatted MARKDOWN, NOT a single
+run-on paragraph. Specifically:
+  - Use "## " section headings where it helps (e.g. "## Summary",
+    "## Key Concepts", "## Related Papers").
+  - Use "- " bullets or "1. ", "2. " numbered lists, ONE ITEM PER LINE.
+  - Use **bold** to highlight names, terms, or final verdicts.
+  - Use `code` for short technical terms.
+  - For links, ALWAYS use markdown link syntax: [Title](URL).
+  - Separate sections with a BLANK LINE so the popup can render
+    paragraphs and lists correctly.
+  - Keep it compact and scannable — no walls of text.
+
+ESCAPING NEWLINES IN JSON:
+Because your reply is a JSON object, real newlines inside the "answer"
+string MUST be written as the two characters \n. Example:
+  {"answer": "## Summary\n\nThis video covers...\n\n## Papers\n\n1. [Paper A](https://...)\n2. [Paper B](https://...)"}
+
+SPECIAL RULE — QUIZ MODE (overrides the markdown format):
+When the user wants a QUIZ, after calling generate_quiz, your final answer
+MUST be a JSON object of the form:
+  {"answer": "<the EXACT quiz JSON array string from the tool result>"}
+That is, the value of "answer" must be the raw stringified JSON array
+that came out of generate_quiz — no prose, no markdown, no fences.
+The frontend will parse it and render an interactive quiz.
+
+
+User: Give me a short summary of this video: https://www.youtube.com/watch?v=PeMlggyqz0Y
+
+Assistant: {"tool_name": "get_video_transcript", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+Tool Result: {"video_id": "PeMlggyqz0Y", "language": "en", "word_count": 529, "transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could play checkers half a century later and predictive models are embedded in many of the products we use every day which perform two fundamental jobs one is to classify data like is there another car on the road or does this patient have cancer the other is to make predictions about future outcomes like will the stock go up or which YouTube video do you want to watch next the first step in the process is to acquire and clean up data lots and lots of data the better the data represents the problem the better the results garbage in garbage out the data needs to have some kind of signal to be valuable to the algorithm f... [truncated, total 10669 chars]
+
+[LLM RAW REPLY]
+{"answer": "## Summary\n\n**Machine learning** is the process of teaching computers to perform tasks by feeding data into algorithms rather than using explicit programming. Coined by **Arthur Samuel** in 1959, the field has evolved into a critical component of modern software.\n\n## Core Process\n\n- **Data Preparation:** Involves cleaning raw data and **feature engineering** to ensure the algorithm has high-quality inputs.\n- **Training & Testing:** Datasets are split into training sets (to build the model) and testing sets (to validate performance).\n- **Algorithm Selection:** Options range from simple statistical methods like **linear regression** to complex **convolutional neural networks** (CNNs) for image or language processing.\n- **Optimization:** Algorithms refine their predictions by minimizing an **error function** (e.g., accuracy or mean absolute error).\n\n## Key Takeaways\n\n- The fundamental jobs of machine learning are **classifying data** and **predicting future outcomes**.\n- The final product is a **model file** that can be deployed to cloud services or local devices.\n- **Python** is the primary language used by data scientists, supported by various frameworks that streamline development."}
+
+[LLM PARSED] {"answer": "## Summary\n\n**Machine learning** is the process of teaching computers to perform tasks by feeding data into algorithms rather than using explicit programming. Coined by **Arthur Samuel** in 1959, the field has evolved into a critical component of modern software.\n\n## Core Process\n\n- **Data Preparation:** Involves cleaning raw data and **feature engineering** to ensure the algorit
+
+[FINAL ANSWER]
+## Summary
+
+**Machine learning** is the process of teaching computers to perform tasks by feeding data into algorithms rather than using explicit programming. Coined by **Arthur Samuel** in 1959, the field has evolved into a critical component of modern software.
+
+## Core Process
+
+- **Data Preparation:** Involves cleaning raw data and **feature engineering** to ensure the algorithm has high-quality inputs.
+- **Training & Testing:** Datasets are split into training sets (to build the model) and testing sets (to validate performance).
+- **Algorithm Selection:** Options range from simple statistical methods like **linear regression** to complex **convolutional neural networks** (CNNs) for image or language processing.
+- **Optimization:** Algorithms refine their predictions by minimizing an **error function** (e.g., accuracy or mean absolute error).
+
+## Key Takeaways
+
+- The fundamental jobs of machine learning are **classifying data** and **predicting future outcomes**.
+- The final product is a **model file** that can be deployed to cloud services or local devices.
+- **Python** is the primary language used by data scientists, supported by various frameworks that streamline development.
+
+
+##############################################################################
+# QUERY 3/3
+##############################################################################
+
+==============================================================================
+USER QUERY:
+Watch this video: https://www.youtube.com/watch?v=PeMlggyqz0Y
+Then: (1) summarise it, (2) tell me 3 key concepts, (3) find one related arXiv paper for the most important concept.
+==============================================================================
+
+--- Iteration 1 ---
+
+[PROMPT SENT TO LLM] (full conversation history, 2 message(s), 2918 chars total)
+You are a YouTube Learning Companion Agent.
+You help users understand YouTube videos deeply.
+
+You CANNOT watch YouTube videos directly. You MUST use tools.
+
+Available tools:
+1. get_video_metadata(video_url: str)
+   Returns title, channel, thumbnail of a YouTube video.
+
+2. get_video_transcript(video_url: str)
+   Returns the full text transcript of the video.
+   IMPORTANT: Most other tools need a transcript first.
+
+3. summarize_video(transcript: str)
+   Generates a concise summary of the transcript.
+
+4. extract_key_concepts(transcript: str)
+   Returns a JSON list of important concepts from the transcript.
+
+5. search_arxiv_papers(concept: str)
+   Searches arXiv for academic papers on a given concept.
+
+6. generate_quiz(transcript: str)
+   Creates 5 MCQs to test understanding of the transcript.
+
+You MUST respond in ONE of these two JSON formats:
+
+If you need to use a tool:
+{"tool_name": "<name>", "tool_arguments": {"<arg_name>": "<value>"}}
+
+If you have the final answer:
+{"answer": "<your final answer>"}
+
+RULES:
+- Respond with ONLY the JSON. No prose around the JSON. No code fences.
+- Plan multi-step: e.g. transcript -> summary, or transcript -> concepts -> arxiv.
+- When passing a transcript to a tool, use the EXACT 'transcript' field
+  from the previous get_video_transcript tool result.
+- Once you have enough information, give the final answer.
+
+FORMAT OF THE FINAL ANSWER (the value of "answer"):
+The "answer" string MUST be well-formatted MARKDOWN, NOT a single
+run-on paragraph. Specifically:
+  - Use "## " section headings where it helps (e.g. "## Summary",
+    "## Key Concepts", "## Related Papers").
+  - Use "- " bullets or "1. ", "2. " numbered lists, ONE ITEM PER LINE.
+  - Use **bold** to highlight names, terms, or final verdicts.
+  - Use `code` for short technical terms.
+  - For links, ALWAYS use markdown link syntax: [Title](URL).
+  - Separate sections with a BLANK LINE so the popup can render
+    paragraphs and lists correctly.
+  - Keep it compact and scannable — no walls of text.
+
+ESCAPING NEWLINES IN JSON:
+Because your reply is a JSON object, real newlines inside the "answer"
+string MUST be written as the two characters \n. Example:
+  {"answer": "## Summary\n\nThis video covers...\n\n## Papers\n\n1. [Paper A](https://...)\n2. [Paper B](https://...)"}
+
+SPECIAL RULE — QUIZ MODE (overrides the markdown format):
+When the user wants a QUIZ, after calling generate_quiz, your final answer
+MUST be a JSON object of the form:
+  {"answer": "<the EXACT quiz JSON array string from the tool result>"}
+That is, the value of "answer" must be the raw stringified JSON array
+that came out of generate_quiz — no prose, no markdown, no fences.
+The frontend will parse it and render an interactive quiz.
+
+
+User: Watch this video: https://www.youtube.com/watch?v=PeMlggyqz0Y
+Then: (1) summarise it, (2) tell me 3 key concepts, (3) find one related arXiv paper for the most important concept.
+
+[LLM RAW REPLY]
+{"tool_name": "get_video_transcript", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+[LLM PARSED] {"tool_name": "get_video_transcript", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+[TOOL CALL] get_video_transcript({"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"})
+
+[TOOL RESULT]
+{"video_id": "PeMlggyqz0Y", "language": "en", "word_count": 529, "transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could play checkers half a century later and predictive models are embedded in many of the products we use every day which perform two fundamental jobs one is to classify data like is there another car on the road or does this patient have cancer the other is to make predictions about future outcomes like will the stock go up or which YouTube video do you want to watch next the first step i... [truncated, total 3035 chars]
+
+--- Iteration 2 ---
+
+[PROMPT SENT TO LLM] (full conversation history, 4 message(s), 6098 chars total)
+You are a YouTube Learning Companion Agent.
+You help users understand YouTube videos deeply.
+
+You CANNOT watch YouTube videos directly. You MUST use tools.
+
+Available tools:
+1. get_video_metadata(video_url: str)
+   Returns title, channel, thumbnail of a YouTube video.
+
+2. get_video_transcript(video_url: str)
+   Returns the full text transcript of the video.
+   IMPORTANT: Most other tools need a transcript first.
+
+3. summarize_video(transcript: str)
+   Generates a concise summary of the transcript.
+
+4. extract_key_concepts(transcript: str)
+   Returns a JSON list of important concepts from the transcript.
+
+5. search_arxiv_papers(concept: str)
+   Searches arXiv for academic papers on a given concept.
+
+6. generate_quiz(transcript: str)
+   Creates 5 MCQs to test understanding of the transcript.
+
+You MUST respond in ONE of these two JSON formats:
+
+If you need to use a tool:
+{"tool_name": "<name>", "tool_arguments": {"<arg_name>": "<value>"}}
+
+If you have the final answer:
+{"answer": "<your final answer>"}
+
+RULES:
+- Respond with ONLY the JSON. No prose around the JSON. No code fences.
+- Plan multi-step: e.g. transcript -> summary, or transcript -> concepts -> arxiv.
+- When passing a transcript to a tool, use the EXACT 'transcript' field
+  from the previous get_video_transcript tool result.
+- Once you have enough information, give the final answer.
+
+FORMAT OF THE FINAL ANSWER (the value of "answer"):
+The "answer" string MUST be well-formatted MARKDOWN, NOT a single
+run-on paragraph. Specifically:
+  - Use "## " section headings where it helps (e.g. "## Summary",
+    "## Key Concepts", "## Related Papers").
+  - Use "- " bullets or "1. ", "2. " numbered lists, ONE ITEM PER LINE.
+  - Use **bold** to highlight names, terms, or final verdicts.
+  - Use `code` for short technical terms.
+  - For links, ALWAYS use markdown link syntax: [Title](URL).
+  - Separate sections with a BLANK LINE so the popup can render
+    paragraphs and lists correctly.
+  - Keep it compact and scannable — no walls of text.
+
+ESCAPING NEWLINES IN JSON:
+Because your reply is a JSON object, real newlines inside the "answer"
+string MUST be written as the two characters \n. Example:
+  {"answer": "## Summary\n\nThis video covers...\n\n## Papers\n\n1. [Paper A](https://...)\n2. [Paper B](https://...)"}
+
+SPECIAL RULE — QUIZ MODE (overrides the markdown format):
+When the user wants a QUIZ, after calling generate_quiz, your final answer
+MUST be a JSON object of the form:
+  {"answer": "<the EXACT quiz JSON array string from the tool result>"}
+That is, the value of "answer" must be the raw stringified JSON array
+that came out of generate_quiz — no prose, no markdown, no fences.
+The frontend will parse it and render an interactive quiz.
+
+
+User: Watch this video: https://www.youtube.com/watch?v=PeMlggyqz0Y
+Then: (1) summarise it, (2) tell me 3 key concepts, (3) find one related arXiv paper for the most important concept.
+
+Assistant: {"tool_name": "get_video_transcript", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+Tool Result: {"video_id": "PeMlggyqz0Y", "language": "en", "word_count": 529, "transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could play checkers half a century later and predictive models are embedded in many of the products we use every day which perform two fundamental jobs one is to classify data like is there another car on the road or does this patient have cancer the other is to make predictions about future outcomes like will the stock go up or which YouTube video do you want to watch next the first step in the process is to acquire and clean up data lots and lots of data the better the data represents the problem the better the results gar... [truncated, total 6098 chars]
+
+[LLM RAW REPLY]
+{"tool_name": "summarize_video", "tool_arguments": {"transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could play checkers half a century later and predictive models are embedded in many of the products we use every day which perform two fundamental jobs one is to classify data like is there another car on the road or does this patient have cancer the other is to make predictions about future outcomes like will the stock go up or which YouTube video do you want to watch next the first step in the process is to acquire and clean up data lots and lots of data the better the data represents the problem the better the results garbage in garbage out the data needs to have some kind of signal to be valuable to the algorithm for making predictions and data scientists perform a job called feature engineering to transform raw data into features that better represent the underlying problem the next step is to separate the data into a training set and testing set the training data is fed into an algorithm to build a model then the testing data is used to validate the accuracy or error of the model the next step is to choose an algorithm which might be a simple statistical model like linear or logistic regression or a decision tree that assigns different weights to features in the data or you might get fancy with a convolutional neural network which is an algorithm that also assigns weights to Features but also takes the input data and creates a additional features automatically and that's extremely useful for data sets that contain things like images or natural language where manual feature engineering is virtually impossible every one of these algorithms learns to get better by comparing its predictions to an error function if it's a classification problem like is this animal a cat or a dog the error function might be accuracy if it's a regression problem like how much will a loaf of bread cost next year then it might be mean absolute error python is the language of choice among data scientists but R and Julia are also popular options and there are many supporting Frameworks out there to make the process approachable the end result of the machine learning process is a model which is just a file that takes some input data in the same shape that it was trained on then spits out a prediction that tries to minimize the error that it was optimized for it can then be embedded on an actual device or deployed to the cloud to build a real world product this has been machine learning in 100 seconds like And subscribe if you want to see more short videos like this and leave a comment if you want to see more machine learning content on this channel thanks for watching and I will see you in the next one"}}
+
+[LLM PARSED] {"tool_name": "summarize_video", "tool_arguments": {"transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could 
+
+[TOOL CALL] summarize_video({"transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead f... [truncated, total 2953 chars]"})
+
+[TOOL RESULT]
+{"summary": "### 1. Headline\nMachine learning enables computers to learn from data and improve task performance without explicit programming by utilizing algorithms to classify information and predict future outcomes.\n\n### 2. Summary\nMachine learning is a transformative field that mimics organic learning by using algorithms to identify patterns within large datasets. The process involves acquiring and refining data, engineering relevant features, and training models to minimize errors in their predictions. Once validated for accuracy, these models are deployed as functional tools capable of handling tasks ranging from medical diagnostics to personalized content recommendations.\n\n### 3. Key Takeaways\n*   **Fundamental Functions:** Machine learning algorithms perform two primary tasks... [truncated, total 1716 chars]
+
+--- Iteration 3 ---
+
+[PROMPT SENT TO LLM] (full conversation history, 6 message(s), 10865 chars total)
+You are a YouTube Learning Companion Agent.
+You help users understand YouTube videos deeply.
+
+You CANNOT watch YouTube videos directly. You MUST use tools.
+
+Available tools:
+1. get_video_metadata(video_url: str)
+   Returns title, channel, thumbnail of a YouTube video.
+
+2. get_video_transcript(video_url: str)
+   Returns the full text transcript of the video.
+   IMPORTANT: Most other tools need a transcript first.
+
+3. summarize_video(transcript: str)
+   Generates a concise summary of the transcript.
+
+4. extract_key_concepts(transcript: str)
+   Returns a JSON list of important concepts from the transcript.
+
+5. search_arxiv_papers(concept: str)
+   Searches arXiv for academic papers on a given concept.
+
+6. generate_quiz(transcript: str)
+   Creates 5 MCQs to test understanding of the transcript.
+
+You MUST respond in ONE of these two JSON formats:
+
+If you need to use a tool:
+{"tool_name": "<name>", "tool_arguments": {"<arg_name>": "<value>"}}
+
+If you have the final answer:
+{"answer": "<your final answer>"}
+
+RULES:
+- Respond with ONLY the JSON. No prose around the JSON. No code fences.
+- Plan multi-step: e.g. transcript -> summary, or transcript -> concepts -> arxiv.
+- When passing a transcript to a tool, use the EXACT 'transcript' field
+  from the previous get_video_transcript tool result.
+- Once you have enough information, give the final answer.
+
+FORMAT OF THE FINAL ANSWER (the value of "answer"):
+The "answer" string MUST be well-formatted MARKDOWN, NOT a single
+run-on paragraph. Specifically:
+  - Use "## " section headings where it helps (e.g. "## Summary",
+    "## Key Concepts", "## Related Papers").
+  - Use "- " bullets or "1. ", "2. " numbered lists, ONE ITEM PER LINE.
+  - Use **bold** to highlight names, terms, or final verdicts.
+  - Use `code` for short technical terms.
+  - For links, ALWAYS use markdown link syntax: [Title](URL).
+  - Separate sections with a BLANK LINE so the popup can render
+    paragraphs and lists correctly.
+  - Keep it compact and scannable — no walls of text.
+
+ESCAPING NEWLINES IN JSON:
+Because your reply is a JSON object, real newlines inside the "answer"
+string MUST be written as the two characters \n. Example:
+  {"answer": "## Summary\n\nThis video covers...\n\n## Papers\n\n1. [Paper A](https://...)\n2. [Paper B](https://...)"}
+
+SPECIAL RULE — QUIZ MODE (overrides the markdown format):
+When the user wants a QUIZ, after calling generate_quiz, your final answer
+MUST be a JSON object of the form:
+  {"answer": "<the EXACT quiz JSON array string from the tool result>"}
+That is, the value of "answer" must be the raw stringified JSON array
+that came out of generate_quiz — no prose, no markdown, no fences.
+The frontend will parse it and render an interactive quiz.
+
+
+User: Watch this video: https://www.youtube.com/watch?v=PeMlggyqz0Y
+Then: (1) summarise it, (2) tell me 3 key concepts, (3) find one related arXiv paper for the most important concept.
+
+Assistant: {"tool_name": "get_video_transcript", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+Tool Result: {"video_id": "PeMlggyqz0Y", "language": "en", "word_count": 529, "transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could play checkers half a century later and predictive models are embedded in many of the products we use every day which perform two fundamental jobs one is to classify data like is there another car on the road or does this patient have cancer the other is to make predictions about future outcomes like will the stock go up or which YouTube video do you want to watch next the first step in the process is to acquire and clean up data lots and lots of data the better the data represents the problem the better the results gar... [truncated, total 10865 chars]
+
+[LLM RAW REPLY]
+{"tool_name": "extract_key_concepts", "tool_arguments": {"transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could play checkers half a century later and predictive models are embedded in many of the products we use every day which perform two fundamental jobs one is to classify data like is there another car on the road or does this patient have cancer the other is to make predictions about future outcomes like will the stock go up or which YouTube video do you want to watch next the first step in the process is to acquire and clean up data lots and lots of data the better the data represents the problem the better the results garbage in garbage out the data needs to have some kind of signal to be valuable to the algorithm for making predictions and data scientists perform a job called feature engineering to transform raw data into features that better represent the underlying problem the next step is to separate the data into a training set and testing set the training data is fed into an algorithm to build a model then the testing data is used to validate the accuracy or error of the model the next step is to choose an algorithm which might be a simple statistical model like linear or logistic regression or a decision tree that assigns different weights to features in the data or you might get fancy with a convolutional neural network which is an algorithm that also assigns weights to Features but also takes the input data and creates a additional features automatically and that's extremely useful for data sets that contain things like images or natural language where manual feature engineering is virtually impossible every one of these algorithms learns to get better by comparing its predictions to an error function if it's a classification problem like is this animal a cat or a dog the error function might be accuracy if it's a regression problem like how much will a loaf of bread cost next year then it might be mean absolute error python is the language of choice among data scientists but R and Julia are also popular options and there are many supporting Frameworks out there to make the process approachable the end result of the machine learning process is a model which is just a file that takes some input data in the same shape that it was trained on then spits out a prediction that tries to minimize the error that it was optimized for it can then be embedded on an actual device or deployed to the cloud to build a real world product this has been machine learning in 100 seconds like And subscribe if you want to see more short videos like this and leave a comment if you want to see more machine learning content on this channel thanks for watching and I will see you in the next one"}}
+
+[LLM PARSED] {"tool_name": "extract_key_concepts", "tool_arguments": {"transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that c
+
+[TOOL CALL] extract_key_concepts({"transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead f... [truncated, total 2953 chars]"})
+
+[TOOL RESULT]
+{"concepts": ["machine learning", "artificial intelligence", "feature engineering", "predictive models", "training set", "convolutional neural network", "error function"]}
+
+--- Iteration 4 ---
+
+[PROMPT SENT TO LLM] (full conversation history, 8 message(s), 14092 chars total)
+You are a YouTube Learning Companion Agent.
+You help users understand YouTube videos deeply.
+
+You CANNOT watch YouTube videos directly. You MUST use tools.
+
+Available tools:
+1. get_video_metadata(video_url: str)
+   Returns title, channel, thumbnail of a YouTube video.
+
+2. get_video_transcript(video_url: str)
+   Returns the full text transcript of the video.
+   IMPORTANT: Most other tools need a transcript first.
+
+3. summarize_video(transcript: str)
+   Generates a concise summary of the transcript.
+
+4. extract_key_concepts(transcript: str)
+   Returns a JSON list of important concepts from the transcript.
+
+5. search_arxiv_papers(concept: str)
+   Searches arXiv for academic papers on a given concept.
+
+6. generate_quiz(transcript: str)
+   Creates 5 MCQs to test understanding of the transcript.
+
+You MUST respond in ONE of these two JSON formats:
+
+If you need to use a tool:
+{"tool_name": "<name>", "tool_arguments": {"<arg_name>": "<value>"}}
+
+If you have the final answer:
+{"answer": "<your final answer>"}
+
+RULES:
+- Respond with ONLY the JSON. No prose around the JSON. No code fences.
+- Plan multi-step: e.g. transcript -> summary, or transcript -> concepts -> arxiv.
+- When passing a transcript to a tool, use the EXACT 'transcript' field
+  from the previous get_video_transcript tool result.
+- Once you have enough information, give the final answer.
+
+FORMAT OF THE FINAL ANSWER (the value of "answer"):
+The "answer" string MUST be well-formatted MARKDOWN, NOT a single
+run-on paragraph. Specifically:
+  - Use "## " section headings where it helps (e.g. "## Summary",
+    "## Key Concepts", "## Related Papers").
+  - Use "- " bullets or "1. ", "2. " numbered lists, ONE ITEM PER LINE.
+  - Use **bold** to highlight names, terms, or final verdicts.
+  - Use `code` for short technical terms.
+  - For links, ALWAYS use markdown link syntax: [Title](URL).
+  - Separate sections with a BLANK LINE so the popup can render
+    paragraphs and lists correctly.
+  - Keep it compact and scannable — no walls of text.
+
+ESCAPING NEWLINES IN JSON:
+Because your reply is a JSON object, real newlines inside the "answer"
+string MUST be written as the two characters \n. Example:
+  {"answer": "## Summary\n\nThis video covers...\n\n## Papers\n\n1. [Paper A](https://...)\n2. [Paper B](https://...)"}
+
+SPECIAL RULE — QUIZ MODE (overrides the markdown format):
+When the user wants a QUIZ, after calling generate_quiz, your final answer
+MUST be a JSON object of the form:
+  {"answer": "<the EXACT quiz JSON array string from the tool result>"}
+That is, the value of "answer" must be the raw stringified JSON array
+that came out of generate_quiz — no prose, no markdown, no fences.
+The frontend will parse it and render an interactive quiz.
+
+
+User: Watch this video: https://www.youtube.com/watch?v=PeMlggyqz0Y
+Then: (1) summarise it, (2) tell me 3 key concepts, (3) find one related arXiv paper for the most important concept.
+
+Assistant: {"tool_name": "get_video_transcript", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+Tool Result: {"video_id": "PeMlggyqz0Y", "language": "en", "word_count": 529, "transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could play checkers half a century later and predictive models are embedded in many of the products we use every day which perform two fundamental jobs one is to classify data like is there another car on the road or does this patient have cancer the other is to make predictions about future outcomes like will the stock go up or which YouTube video do you want to watch next the first step in the process is to acquire and clean up data lots and lots of data the better the data represents the problem the better the results gar... [truncated, total 14092 chars]
+
+[LLM RAW REPLY]
+{"tool_name": "search_arxiv_papers", "tool_arguments": {"concept": "convolutional neural network"}}
+
+[LLM PARSED] {"tool_name": "search_arxiv_papers", "tool_arguments": {"concept": "convolutional neural network"}}
+
+[TOOL CALL] search_arxiv_papers({"concept": "convolutional neural network"})
+
+[TOOL RESULT]
+{"concept": "convolutional neural network", "papers": [{"title": "A Tutorial about Random Neural Networks in Supervised Learning", "summary": "Random Neural Networks (RNNs) are a class of Neural Networks (NNs) that can also be seen as a specific type of queuing network. They have been successfully used in several domains during the last 25 years, as queuing networks to analyze the performance of resource sharing in many engineering areas, ", "url": "http://arxiv.org/abs/1609.04846v1", "published": "2016-09-15T20:21:30Z"}, {"title": "Strengthening the Training of Convolutional Neural Networks By Using Walsh Matrix", "summary": "DNN structures are continuously developing and achieving high performances in classification problems. Also, it is observed that success rates obtained with DNNs are... [truncated, total 1503 chars]
+
+--- Iteration 5 ---
+
+[PROMPT SENT TO LLM] (full conversation history, 10 message(s), 15722 chars total)
+You are a YouTube Learning Companion Agent.
+You help users understand YouTube videos deeply.
+
+You CANNOT watch YouTube videos directly. You MUST use tools.
+
+Available tools:
+1. get_video_metadata(video_url: str)
+   Returns title, channel, thumbnail of a YouTube video.
+
+2. get_video_transcript(video_url: str)
+   Returns the full text transcript of the video.
+   IMPORTANT: Most other tools need a transcript first.
+
+3. summarize_video(transcript: str)
+   Generates a concise summary of the transcript.
+
+4. extract_key_concepts(transcript: str)
+   Returns a JSON list of important concepts from the transcript.
+
+5. search_arxiv_papers(concept: str)
+   Searches arXiv for academic papers on a given concept.
+
+6. generate_quiz(transcript: str)
+   Creates 5 MCQs to test understanding of the transcript.
+
+You MUST respond in ONE of these two JSON formats:
+
+If you need to use a tool:
+{"tool_name": "<name>", "tool_arguments": {"<arg_name>": "<value>"}}
+
+If you have the final answer:
+{"answer": "<your final answer>"}
+
+RULES:
+- Respond with ONLY the JSON. No prose around the JSON. No code fences.
+- Plan multi-step: e.g. transcript -> summary, or transcript -> concepts -> arxiv.
+- When passing a transcript to a tool, use the EXACT 'transcript' field
+  from the previous get_video_transcript tool result.
+- Once you have enough information, give the final answer.
+
+FORMAT OF THE FINAL ANSWER (the value of "answer"):
+The "answer" string MUST be well-formatted MARKDOWN, NOT a single
+run-on paragraph. Specifically:
+  - Use "## " section headings where it helps (e.g. "## Summary",
+    "## Key Concepts", "## Related Papers").
+  - Use "- " bullets or "1. ", "2. " numbered lists, ONE ITEM PER LINE.
+  - Use **bold** to highlight names, terms, or final verdicts.
+  - Use `code` for short technical terms.
+  - For links, ALWAYS use markdown link syntax: [Title](URL).
+  - Separate sections with a BLANK LINE so the popup can render
+    paragraphs and lists correctly.
+  - Keep it compact and scannable — no walls of text.
+
+ESCAPING NEWLINES IN JSON:
+Because your reply is a JSON object, real newlines inside the "answer"
+string MUST be written as the two characters \n. Example:
+  {"answer": "## Summary\n\nThis video covers...\n\n## Papers\n\n1. [Paper A](https://...)\n2. [Paper B](https://...)"}
+
+SPECIAL RULE — QUIZ MODE (overrides the markdown format):
+When the user wants a QUIZ, after calling generate_quiz, your final answer
+MUST be a JSON object of the form:
+  {"answer": "<the EXACT quiz JSON array string from the tool result>"}
+That is, the value of "answer" must be the raw stringified JSON array
+that came out of generate_quiz — no prose, no markdown, no fences.
+The frontend will parse it and render an interactive quiz.
+
+
+User: Watch this video: https://www.youtube.com/watch?v=PeMlggyqz0Y
+Then: (1) summarise it, (2) tell me 3 key concepts, (3) find one related arXiv paper for the most important concept.
+
+Assistant: {"tool_name": "get_video_transcript", "tool_arguments": {"video_url": "https://www.youtube.com/watch?v=PeMlggyqz0Y"}}
+
+Tool Result: {"video_id": "PeMlggyqz0Y", "language": "en", "word_count": 529, "transcript": "machine learning teach a computer how to perform a task without explicitly programming it to perform said task instead feed data into an algorithm to gradually improve outcomes with experience similar to how organic life learns the term was coined in 1959 by Arthur Samuel at IBM who is developing artificial intelligence that could play checkers half a century later and predictive models are embedded in many of the products we use every day which perform two fundamental jobs one is to classify data like is there another car on the road or does this patient have cancer the other is to make predictions about future outcomes like will the stock go up or which YouTube video do you want to watch next the first step in the process is to acquire and clean up data lots and lots of data the better the data represents the problem the better the results gar... [truncated, total 15722 chars]
+
+[LLM RAW REPLY]
+{"answer": "## Summary\nThis video provides a high-level overview of **Machine Learning**, explaining how it enables computers to learn from data without explicit programming. It covers the end-to-end pipeline, from data acquisition and **feature engineering** to choosing appropriate algorithms and validating models using training and testing sets to minimize prediction errors.\n\n## Key Concepts\n1. **Feature Engineering**: The process of transforming raw data into meaningful features that allow algorithms to better understand and predict the underlying problem.\n2. **Convolutional Neural Network (CNN)**: An advanced algorithm that automatically extracts features from data, making it particularly powerful for processing complex inputs like images and natural language.\n3. **Error Function**: A mathematical metric (such as accuracy or mean absolute error) used by algorithms to evaluate their predictions and iteratively improve performance.\n\n## Related Paper\n- [Strengthening the Training of Convolutional Neural Networks By Using Walsh Matrix](http://arxiv.org/abs/2104.00035v1): This paper explores techniques to enhance the training performance of CNNs, which are a central concept in modern deep learning applications."}
+
+[LLM PARSED] {"answer": "## Summary\nThis video provides a high-level overview of **Machine Learning**, explaining how it enables computers to learn from data without explicit programming. It covers the end-to-end pipeline, from data acquisition and **feature engineering** to choosing appropriate algorithms and validating models using training and testing sets to minimize prediction errors.\n\n## Key Concepts\
+
+[FINAL ANSWER]
+## Summary
+This video provides a high-level overview of **Machine Learning**, explaining how it enables computers to learn from data without explicit programming. It covers the end-to-end pipeline, from data acquisition and **feature engineering** to choosing appropriate algorithms and validating models using training and testing sets to minimize prediction errors.
+
+## Key Concepts
+1. **Feature Engineering**: The process of transforming raw data into meaningful features that allow algorithms to better understand and predict the underlying problem.
+2. **Convolutional Neural Network (CNN)**: An advanced algorithm that automatically extracts features from data, making it particularly powerful for processing complex inputs like images and natural language.
+3. **Error Function**: A mathematical metric (such as accuracy or mean absolute error) used by algorithms to evaluate their predictions and iteratively improve performance.
+
+## Related Paper
+- [Strengthening the Training of Convolutional Neural Networks By Using Walsh Matrix](http://arxiv.org/abs/2104.00035v1): This paper explores techniques to enhance the training performance of CNNs, which are a central concept in modern deep learning applications.
