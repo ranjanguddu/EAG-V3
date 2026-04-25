@@ -29,7 +29,7 @@ import requests
 from dotenv import load_dotenv
 from youtube_transcript_api import YouTubeTranscriptApi
 
-ENV_PATH = Path(__file__).resolve().parents[2] / ".env"
+ENV_PATH = Path(__file__).resolve().parents[1] / ".env"
 load_dotenv(ENV_PATH)
 
 API_KEY = os.environ.get("GEMINI_API_KEY")

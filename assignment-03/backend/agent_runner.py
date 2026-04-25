@@ -21,7 +21,7 @@ if str(PARENT_DIR) not in sys.path:
 from step3_tools import TOOLS  # noqa: E402
 from step5_robust_parsing import parse_llm_response  # noqa: E402
 
-ENV_PATH = PARENT_DIR.parent.parent / ".env"
+ENV_PATH = PARENT_DIR.parent / ".env"
 load_dotenv(ENV_PATH)
 
 API_KEY = os.environ.get("GEMINI_API_KEY")

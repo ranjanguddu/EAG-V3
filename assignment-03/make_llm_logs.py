@@ -35,7 +35,7 @@ from step3_tools import TOOLS
 from step5_robust_parsing import parse_llm_response
 from backend.agent_runner import SYSTEM_PROMPT
 
-ENV_PATH = Path(__file__).resolve().parents[1] / ".env"
+ENV_PATH = Path(__file__).resolve().parent / ".env"
 load_dotenv(ENV_PATH)
 
 API_KEY = os.environ.get("GEMINI_API_KEY")

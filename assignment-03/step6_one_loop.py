@@ -23,7 +23,7 @@ from dotenv import load_dotenv
 from step3_tools import TOOLS
 from step5_robust_parsing import parse_llm_response
 
-ENV_PATH = Path(__file__).resolve().parents[2] / ".env"
+ENV_PATH = Path(__file__).resolve().parents[1] / ".env"
 load_dotenv(ENV_PATH)
 
 API_KEY = os.environ.get("GEMINI_API_KEY")

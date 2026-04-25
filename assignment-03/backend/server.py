@@ -8,7 +8,7 @@ Endpoints:
 CORS: allows any localhost origin and chrome-extension:// origins.
 
 Run:
-    cd /Users/vikasran/Documents/personal-data/vikash/EAG-V3/assignment-03/youtube_agent
+    cd /Users/vikasran/Documents/personal-data/vikash/EAG-V3/assignment-03
     source .venv/bin/activate
     uvicorn backend.server:app --host 127.0.0.1 --port 8000 --reload
 """

@@ -33,7 +33,7 @@ Built step-by-step following the agent loop pattern:
 ## Folder Structure
 
 ```
-youtube_agent/
+assignment-03/
 ├── README.md                   ← you are here
 ├── requirements.txt
 ├── step1_basic_llm.py          ← Step 1: raw LLM call (hallucinates)
@@ -58,7 +58,7 @@ youtube_agent/
 ## Setup (one-time)
 
 ```bash
-cd /Users/vikasran/Documents/personal-data/vikash/EAG-V3/assignment-03/youtube_agent
+cd /Users/vikasran/Documents/personal-data/vikash/EAG-V3/assignment-03
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -96,7 +96,7 @@ python step7_agent_loop.py       # full multi-step agent loop
 ### 1. Start the backend
 
 ```bash
-cd /Users/vikasran/Documents/personal-data/vikash/EAG-V3/assignment-03/youtube_agent
+cd /Users/vikasran/Documents/personal-data/vikash/EAG-V3/assignment-03
 source .venv/bin/activate
 uvicorn backend.server:app --host 127.0.0.1 --port 8000 --reload
 ```
@@ -114,7 +114,7 @@ curl http://127.0.0.1:8000/health
 2. Enable **Developer mode** (top right)
 3. Click **Load unpacked**
 4. Select the folder:
-   `/Users/vikasran/Documents/personal-data/vikash/EAG-V3/assignment-03/youtube_agent/chrome_extension`
+   `/Users/vikasran/Documents/personal-data/vikash/EAG-V3/assignment-03/chrome_extension`
 5. The extension appears in your toolbar.
 
 ### 3. Use it
