@@ -1,0 +1,6 @@
+data/snaps/
+data/random_snaps/
+eval/runs/
+eval/tasks/
+eval/mutations/
+data/maps/*.tif
